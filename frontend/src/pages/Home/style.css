@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    background-color: #1B1B1B;
+    min-height: 100vh;
+    color: white;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background-color: #363636;
+    border-radius: 10px;
+}
+input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+button {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #8b8ae1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+.card {
+    display: flex;
+    justify-content: space-between;
+    background-color: #2e2d4e;
+    width: 400px;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
