@@ -2,8 +2,15 @@ import React, { useEffect, useState, useRef } from 'react'
 import './style.css'
 import Trash from '../../assets/trash.svg' 
 import api from '../../services/api'
+import { useNavigate } from 'react-router-dom'
 
 function Home() {
+  const navigate = useNavigate();
+
+function logout() {
+    localStorage.removeItem('token');
+    navigate('/')
+  }
   const [users, setUsers] = useState([])
   const inputName = useRef()
   const inputAge = useRef()
@@ -12,6 +19,17 @@ function Home() {
   async function getUsers() {
     const usersFromApi = await api.get('/usuarios')
     setUsers(usersFromApi.data)
+  async function getUsers() {
+  try {
+      const usersFromApi = await api.get('/usuarios')
+      setUsers(usersFromApi.data)
+  } catch (error) {
+      if (error.response && error.response.status === 401) {
+          alert("Sua sessão expirou. Por favor, faça login novamente.");
+
+      }
+  }
+}
   }
 
   async function createUsers() {
@@ -39,6 +57,7 @@ function Home() {
 
   return (
     <div className='container'>
+      <button onClick={logout} style={{backgroundColor: '#ff4d4d', marginBottom: '20px'}}>Sair</button>
       <form>
         <h1>Cadastro de Usuários</h1>
         <input placeholder="Nome" name="nome" type="text" ref={inputName} />
