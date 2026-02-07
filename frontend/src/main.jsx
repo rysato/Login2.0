@@ -3,15 +3,20 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import Cadastro from './pages/Cadastro'
 import './index.css'
+
+const PrivateRoute = ({ children }) => {
+    return localStorage.getItem('token') ? children : <Navigate to="/" />;
+};
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
