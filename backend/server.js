@@ -4,6 +4,14 @@ import { PrismaClient } from '@prisma/client'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import cookieParser from 'cookie-parser'
+
+const prisma = new PrismaClient()
+const app = express()
+const SECRET_KEY = "sua_chave_secreta" 
+
+app.use(express.json())
+app.use(cookieParser())
+
 app.use(cors({
     origin: [
         'http://localhost:5173', 
@@ -11,16 +19,6 @@ app.use(cors({
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] 
-}))
-const prisma = new PrismaClient()
-const app = express()
-const SECRET_KEY = "sua_chave_secreta" 
-
-app.use(express.json())
-app.use(cookieParser())
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
 }))
 
 const authMiddleware = (req, res, next) => {
@@ -87,4 +85,6 @@ app.post('/logout', (req, res) => {
     res.json({ message: "Logout realizado" })
 })
 
-app.listen(3000, () => console.log('Servidor rodando'))
+
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`))
