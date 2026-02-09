@@ -4,7 +4,14 @@ import { PrismaClient } from '@prisma/client'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import cookieParser from 'cookie-parser'
-
+app.use(cors({
+    origin: [
+        'http://localhost:5173', 
+        'https://login2-0-mlem.vercel.app'
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] 
+}))
 const prisma = new PrismaClient()
 const app = express()
 const SECRET_KEY = "sua_chave_secreta" 
