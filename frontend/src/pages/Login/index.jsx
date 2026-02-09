@@ -1,23 +1,22 @@
-import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import api from '../../services/api';
+import React, { useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import api from '../../services/api'
 
 function Login() {
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const navigate = useNavigate();
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    const navigate = useNavigate()
 
     async function handleLogin(e) {
-        e.preventDefault();
+        e.preventDefault()
         try {
-            const res = await api.post('/login', {
+            await api.post('/login', {
                 email: emailRef.current.value,
                 password: passwordRef.current.value
-            });
-            localStorage.setItem('token', res.data.token);
-            navigate('/home');
+            })
+            navigate('/home')
         } catch (err) {
-            alert("E-mail ou senha inválidos");
+            alert("E-mail ou senha inválidos")
         }
     }
 
@@ -31,6 +30,7 @@ function Login() {
                 <button type="button" className="secondary-btn" onClick={() => navigate('/cadastro')}>Criar nova conta</button>
             </form>
         </div>
-    );
+    )
 }
-export default Login;
+
+export default Login

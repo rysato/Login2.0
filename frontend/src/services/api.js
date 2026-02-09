@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'https://login2-0.onrender.com'
+    baseURL: 'https://login2-0.onrender.com',
+    withCredentials: true
 })
 
 api.interceptors.request.use((config) => {
