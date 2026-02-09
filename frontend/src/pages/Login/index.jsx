@@ -10,10 +10,11 @@ function Login() {
     async function handleLogin(e) {
         e.preventDefault()
         try {
-            await api.post('/login', {
+            const res = await api.post('/login', {
                 email: emailRef.current.value,
                 password: passwordRef.current.value
             })
+            localStorage.setItem('token', res.data.token)
             navigate('/home')
         } catch (err) {
             alert("E-mail ou senha inválidos")

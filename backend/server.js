@@ -3,27 +3,17 @@ import cors from 'cors'
 import { PrismaClient } from '@prisma/client'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import cookieParser from 'cookie-parser'
 
 const prisma = new PrismaClient()
 const app = express()
 const SECRET_KEY = "sua_chave_secreta" 
 
 app.use(express.json())
-app.use(cookieParser())
-
-app.use(cors({
-    origin: [
-        'http://localhost:5173', 
-        'https://login2-0-mlem.vercel.app'
-    ],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] 
-}))
+app.use(cors())
 
 const authMiddleware = (req, res, next) => {
-    const token = req.cookies.token
-
+    const token = req.headers['authorization']?.split(' ')[1]
+    
     if (!token) return res.status(401).json({ error: "Não autorizado" })
 
     try {
@@ -53,15 +43,7 @@ app.post('/login', async (req, res) => {
 
     if (user && await bcrypt.compare(password, user.password)) {
         const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' })
-        
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'none',
-            maxAge: 3600000
-        })
-
-        return res.json({ message: "Login realizado com sucesso" })
+        return res.json({ token })
     }
     res.status(401).json({ error: "Credenciais inválidas" })
 })
@@ -75,16 +57,6 @@ app.delete('/usuarios/:id', authMiddleware, async (req, res) => {
     await prisma.user.delete({ where: { id: req.params.id } })
     res.json({ message: "Usuário deletado" })
 })
-
-app.post('/logout', (req, res) => {
-    res.clearCookie('token', {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none'
-    })
-    res.json({ message: "Logout realizado" })
-})
-
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`))

@@ -1,17 +1,15 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'https://login2-0.onrender.com',
-    withCredentials: true
+    baseURL: 'https://login2-0.onrender.com' 
 })
 
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${token}`
     }
-    return config;
-});
+    return config
+})
 
-export default api;
-
+export default api
