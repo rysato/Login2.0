@@ -24,7 +24,7 @@ function Login() {
     return (
         <div className="container">
             <form onSubmit={handleLogin}>
-                <h1>Bem-vindo de volta!</h1>
+                <h1>Bem-vindo</h1>
                 <input placeholder="E-mail" ref={emailRef} required />
                 <input placeholder="Senha" type="password" ref={passwordRef} required />
                 <button type="submit" className="primary-btn">Entrar</button>
